@@ -1,5 +1,5 @@
 import HeroBanner from "@/components/hero-banner"
-// import MainContent from "@/components/main-content"
+import MainContent from "@/components/main-content";
 
 export default async function AnimePage({
   params,
@@ -16,7 +16,7 @@ export default async function AnimePage({
         <HeroBanner animeId={numericId} />
       {id}
       {/* Main Content */}
-        {/* <MainContent /> */}
+        <MainContent animeId={numericId} />
     </div>
   )
 }

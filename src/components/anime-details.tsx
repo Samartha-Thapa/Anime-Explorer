@@ -126,7 +126,7 @@ export default function AnimeDetails() {
           <h2 className="text-2xl font-bold">Synopsis</h2>
           <p className="text-gray-300 leading-relaxed">
             The third season of Fire Force continues the story of Shinra Kusakabe and the Special Fire Force Company 8.
-            As they delve deeper into the mysteries of the Infernals and the Evangelist's plans, new challenges and
+            As they delve deeper into the mysteries of the Infernals and the Evangelist$apos;s plans, new challenges and
             enemies await. With the revelation of the true nature of the world and the Adolla Burst, Shinra must harness
             his powers to protect humanity from the impending doom.
           </p>

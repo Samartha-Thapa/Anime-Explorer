@@ -1,8 +1,8 @@
 'use client'
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { getAnimeById } from "@/lib/api";
-import { Anime, AnimeId } from "@/lib/types";
+import { getAnimeByName } from "@/lib/api";
+import { Anime } from "@/lib/types";
 
 interface HeroBannerProps {
   animeName: string; // Match the AnimeId type
@@ -16,7 +16,22 @@ export default function HeroBannerName(
         const [error, setError] = useState<string | null>(null)
     
         useEffect(() => {
-
+          async function fetchAnime() {
+            try {
+              setLoading(true);
+              const response = await getAnimeByName(animeName);
+              const animeData = response.data[0]; // Take the first result
+              console.log(animeData);
+              setAnime(animeData);
+            } catch (error) {
+              console.error("Failed to fetch anime:", error);
+              setError('Failed to load banner')
+              setLoading(false);
+            } finally {
+              setLoading(false);
+            }
+          }
+          fetchAnime();
         }, [animeName])
 
     return(

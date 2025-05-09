@@ -11,7 +11,7 @@ interface AnimeCardProps {
   status: string
 }
 
-export default function AnimeCard({ title, image, score, episodes, status }: AnimeCardProps) {
+export default function AnimeCard({ title, image, score, status }: AnimeCardProps) {
   return (
     <div className="group relative overflow-hidden rounded-lg border bg-card shadow-sm transition-all hover:shadow-md">
       <Link href={`/dashboard/anime/${encodeURIComponent(title.toLowerCase().replace(/\s+/g, "-"))}`} className="block">

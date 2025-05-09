@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { getTopAnime } from "@/lib/api";
 import Image from "next/image";
 import { ShowAnimeSkeleton } from "./skeletons/show-anime-skeleton";
+import { Anime } from "@/lib/types";
 
 export default function ShowAnime(){
     const [loading, setLoading] = useState(false);
-    const [animeList, setAnimeList] = useState([]); 
+    const [animeList, setAnimeList] = useState<Anime[]>([]); 
     const [error, setError] = useState<string | null>(null)
 
   const fetchAnime = async () => {
@@ -39,7 +40,7 @@ export default function ShowAnime(){
         <ShowAnimeSkeleton />
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-4">
-          {animeList.map((anime: any) => (
+          {animeList.map((anime: Anime) => (
             <div
               key={anime.mal_id}
               className="overflow-hidden rounded-md shadow-lg transition-transform hover:scale-105"

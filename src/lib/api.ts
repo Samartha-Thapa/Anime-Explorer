@@ -1,6 +1,12 @@
 import axios, { AxiosInstance, AxiosError } from "axios";
 import { JikanResponse } from "./types";
 
+
+interface ValidationErrorResponse {
+  errors: Record<string, string[]>;
+  message?: string;
+}
+
 // Creating an Axios instance
 const api: AxiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api",
@@ -28,18 +34,21 @@ api.interceptors.response.use(
     (error: AxiosError) => {
       // Handle common errors globally
       if (error.response) {
-        const { status } = error.response;
+        const { status, data } = error.response;
         if (status === 401) {
           // Handle unauthorized (e.g., redirect to login or clear token)
           localStorage.removeItem("token");
         } else if (status === 422) {
           // Validation errors from Laravel
-          const errors = error.response.data as { errors?: Record<string, string[]> };
+          const errors = data as ValidationErrorResponse;
           if (errors?.errors) {
             // Transform Laravel validation errors for easier consumption
             const formattedErrors: Record<string, string> = {};
             Object.keys(errors.errors).forEach((key) => {
-              formattedErrors[key] = errors.errors[key][0]; // Take the first error message
+              // Add type check for the error array
+              if (errors.errors[key] && errors.errors[key].length > 0) {
+                formattedErrors[key] = errors.errors[key][0]; // Take the first error message
+              }
             });
             return Promise.reject({ ...error, formattedErrors });
           }
@@ -56,17 +65,6 @@ api.interceptors.response.use(
     },
   });
 
-  // Generic GET request
-  export const fetchData = async (endpoint, params = {}) => {
-    try {
-      const response = await jikanApi.get(endpoint, { params });
-      return response.data;
-    } catch (error) {
-      console.error(`Error fetching data from ${endpoint}:`, error.message);
-      throw error;
-    }
-  };
-
   // Fetching Anime Data from Jikan API
   export const searchAnime = async (query: string, page: number = 1) => {
     try {
@@ -82,6 +80,16 @@ api.interceptors.response.use(
       throw error;
     }
   };
+
+  export const getAnimeByName = async (animeName: string) => {
+    try {
+      const response = await jikanApi.get(`/anime?q=${animeName}`)
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching anime by Name:`, error);
+      throw error;
+    }
+  }
 
   export const getAnimeById = async (id: number) => {
     try {

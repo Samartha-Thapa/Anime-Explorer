@@ -5,8 +5,16 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import {  Star, Play } from "lucide-react"
 import AnimeCard from "@/components/anime-card"
+import { Anime } from "@/lib/types"
 
-export default function MainChildContent(){
+interface SideBarProps {
+    anime: Anime;
+  }
+
+export default function MainChildContent({anime}: SideBarProps){
+  if (!anime) {
+    return <div>Loading anime data...</div>;
+  }
     return(
 
         <div className="md:col-span-3 space-y-8">
@@ -15,7 +23,7 @@ export default function MainChildContent(){
             <Badge className="bg-purple-600">{anime.status}</Badge>
             {anime.genres.map((genre, i) => (
               <Badge key={i} variant="outline">
-                {genre}
+                {genre.name}
               </Badge>
             ))}
           </div>
@@ -42,7 +50,7 @@ export default function MainChildContent(){
               <h2 className="text-2xl font-bold">Trailer</h2>
               <div className="aspect-video overflow-hidden rounded-lg">
                 <iframe
-                  src={`https://www.youtube.com/embed/${anime.trailer_id}`}
+                  src={`https://www.youtube.com/embed/${anime.trailer?.youtube_id}`}
                   title={`${anime.title} Trailer`}
                   allowFullScreen
                   className="w-full h-full"
@@ -55,7 +63,7 @@ export default function MainChildContent(){
               <div className="flex flex-wrap gap-2">
                 {anime.studios.map((studio, i) => (
                   <Badge key={i} variant="secondary" className="text-sm">
-                    {studio}
+                    {studio.name}
                   </Badge>
                 ))}
               </div>

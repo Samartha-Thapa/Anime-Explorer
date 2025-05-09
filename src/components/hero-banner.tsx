@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { getAnimeById } from "@/lib/api";
-import { Anime, AnimeId } from "@/lib/types";
+import { Anime } from "@/lib/types";
 
 interface HeroBannerProps {
   animeId: number | string; // Match the AnimeId type
@@ -21,13 +21,17 @@ export default function HeroBanner(
           try {
             setLoading(true);
             // Convert to number if needed
-            const id = typeof animeId === 'string' ? parseInt(animeId) : animeId;
-            const data = await getAnimeById(animeId);
-            console.log(data.data);
+            const id = typeof animeId === 'string' ? parseInt(animeId, 10) : animeId;
+              if (isNaN(id)) {
+                throw new Error("Invalid anime ID");
+              }
+            const data = await getAnimeById(id);
+            // console.log(data.data);
             setAnime(data.data);
             setLoading(false);
           } catch (error) {
             console.error("Failed to fetch anime:", error);
+            setError('Failed to fetch anime');
             setLoading(false);
           } finally {
             setLoading(false);

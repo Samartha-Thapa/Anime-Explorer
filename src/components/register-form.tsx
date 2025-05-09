@@ -52,7 +52,7 @@ export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showpassword_confirmation, setShowpassword_confirmation] = useState(false)
-  const [success, setSuccess] = useState('');
+  // const [success, setSuccess] = useState('');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,7 +71,7 @@ export function RegisterForm() {
     try{
         const response = await api.post("/register", data);
         localStorage.setItem("token", response.data.token);
-        setSuccess(`Welcome, ${response.data.user.name}! Registration successful.`);
+        // setSuccess(`Welcome, ${response.data.user.name}! Registration successful.`);
         setTimeout(() => router.push("/dashboard"), 2000); // Redirect after 2 seconds
     } catch(error) {
         console.error("Error adding class:", error)   

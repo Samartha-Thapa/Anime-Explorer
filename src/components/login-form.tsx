@@ -47,8 +47,11 @@ export function LoginForm() {
 
     try {
       const response = await api.post("/login", data);
-      // localStorage.se
       setSuccess(`Welcome, ${response.data.user.name}! Log In Successful.`);
+      toast({
+        title: "Success",
+        description: success,
+      })
       setTimeout(() => router.push("/dashboard"), 2000);
     } catch(error) {
       console.error("Error adding class:", error)   
