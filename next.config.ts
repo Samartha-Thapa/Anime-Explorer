@@ -1,22 +1,15 @@
-import type { NextConfig } from "next";
+// next.config.js
 
 module.exports = {
-  async redirect() {
+  async redirects() {
     return [
       {
         source: '/',
-        destination: '/dashboard',
+        destination: '/dashboard', // Redirect root to dashboard
         permanent: true,
       },
-    ]
+    ];
   },
-}
-const nextConfig: NextConfig = {
-  /* config options here */
-  // images: {
-  //   domains: ["cdn.myanimelist.net"],
-  // },
-
 
   images: {
     remotePatterns: [
@@ -27,7 +20,5 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  }
+  },
 };
-
-export default nextConfig;
