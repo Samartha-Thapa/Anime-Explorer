@@ -48,7 +48,7 @@ export default function MainContent(
         <main className="container -mt-40 relative z-10 pb-12">
         <div className="mb-6">
           <Button variant="ghost" size="sm" asChild className="text-white/80 hover:text-white">
-            <Link href="/">
+            <Link href="/dashboard">
               <ChevronLeft className="mr-1 h-4 w-4" />
               Back to Home
             </Link>
@@ -61,6 +61,7 @@ export default function MainContent(
         <div>Loading...</div>
         ) : anime ? (
             <SideBar anime={anime} />
+            // <div></div>
         ) : (
             <div>No anime data available</div>
         )}

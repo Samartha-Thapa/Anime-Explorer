@@ -3,15 +3,37 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import {  Star, Play } from "lucide-react"
-import AnimeCard from "@/components/anime-card"
+import { Star, Play } from "lucide-react"
 import { Anime } from "@/lib/types"
+import StaffAnime from "./anime-staff"
+import AnimeCharacter from "./anime-characters"
+import ChildRecommendedAnime from "./child-recommended-anime"
+
+export interface Staff {
+  person: {
+    mal_id: number;
+    url: string;
+    images: {
+      jpg: {
+        image_url: string;
+      };
+    };
+    name: string;
+  };
+  positions: string[];
+}
+
+
+export interface AnimeStaffResponse {
+  data: Staff[];
+}
 
 interface SideBarProps {
     anime: Anime;
   }
 
 export default function MainChildContent({anime}: SideBarProps){
+  // console.log(anime.mal_id)
   if (!anime) {
     return <div>Loading anime data...</div>;
   }
@@ -21,7 +43,7 @@ export default function MainChildContent({anime}: SideBarProps){
         <div>
           <div className="mb-2 flex flex-wrap items-center gap-2">
             <Badge className="bg-purple-600">{anime.status}</Badge>
-            {anime.genres.map((genre, i) => (
+            {anime.genres?.map((genre, i) => (
               <Badge key={i} variant="outline">
                 {genre.name}
               </Badge>
@@ -61,7 +83,7 @@ export default function MainChildContent({anime}: SideBarProps){
             <div className="space-y-4">
               <h2 className="text-2xl font-bold">Studios</h2>
               <div className="flex flex-wrap gap-2">
-                {anime.studios.map((studio, i) => (
+                {anime.studios?.map((studio, i) => (
                   <Badge key={i} variant="secondary" className="text-sm">
                     {studio.name}
                   </Badge>
@@ -71,27 +93,7 @@ export default function MainChildContent({anime}: SideBarProps){
 
             <div className="space-y-4">
               <h2 className="text-2xl font-bold">Staff</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {[1, 2, 3, 4].map((i) => (
-                  <Card key={i}>
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-3">
-                        <Image
-                          src={`/placeholder.svg?height=60&width=60`}
-                          alt={`Staff ${i}`}
-                          width={60}
-                          height={60}
-                          className="rounded-full object-cover"
-                        />
-                        <div>
-                          <p className="font-medium">Staff Name {i}</p>
-                          <p className="text-sm text-muted-foreground">Director</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+             <StaffAnime animeId={anime.mal_id}/>
             </div>
           </TabsContent>
 
@@ -134,36 +136,7 @@ export default function MainChildContent({anime}: SideBarProps){
             </div>
           </TabsContent>
 
-          <TabsContent value="characters" className="space-y-4">
-            <h2 className="text-2xl font-bold">Characters & Voice Actors</h2>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <Card key={i}>
-                  <CardContent className="p-4">
-                    <div className="flex gap-4">
-                      <Image
-                        src={`/placeholder.svg?height=100&width=70&text=Char${i + 1}`}
-                        alt={`Character ${i + 1}`}
-                        width={70}
-                        height={100}
-                        className="rounded-md object-cover"
-                      />
-                      <div className="flex-1">
-                        <h3 className="font-medium">Character Name {i + 1}</h3>
-                        <p className="text-sm text-muted-foreground">Main Character</p>
-                        <div className="mt-2 flex items-center gap-2">
-                          <Badge variant="outline" className="text-xs">
-                            Japanese
-                          </Badge>
-                          <span className="text-sm">Voice Actor {i + 1}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
+                <AnimeCharacter animeId={anime.mal_id}/>
 
           <TabsContent value="reviews" className="space-y-4">
             <div className="flex items-center justify-between">
@@ -207,21 +180,7 @@ export default function MainChildContent({anime}: SideBarProps){
             </div>
           </TabsContent>
 
-          <TabsContent value="recommendations" className="space-y-4">
-            <h2 className="text-2xl font-bold">Recommendations</h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <AnimeCard
-                  key={i}
-                  title={`Recommended Anime ${i + 1}`}
-                  image={`/placeholder.svg?height=300&width=200&text=Rec${i + 1}`}
-                  score={(Math.random() * 2 + 7)}
-                  episodes={Math.floor(Math.random() * 24) + 1}
-                  status={i % 3 === 0 ? "Airing" : "Completed"}
-                />
-              ))}
-            </div>
-          </TabsContent>
+          <ChildRecommendedAnime />
         </Tabs>
       </div>
     )

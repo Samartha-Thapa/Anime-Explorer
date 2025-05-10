@@ -79,6 +79,7 @@ export default function AnimeTabs() {
                   {animeList.map((anime: Anime) => (
                       <AnimeCard
                         key={anime.mal_id}
+                        animeId={anime.mal_id || ""}
                         title={anime.title}
                         image={anime.images?.jpg?.image_url || '/placeholder.svg?height=300&width=200'}
                         score={anime.score || null}

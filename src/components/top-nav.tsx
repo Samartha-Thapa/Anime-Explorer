@@ -1,6 +1,7 @@
 import { Search, Bell, Menu } from "lucide-react"
-import { Button, Avatar, AvatarFallback, AvatarImage, Input } from "@/lib/components-index";
+import { Button, Avatar, AvatarFallback, AvatarImage } from "@/lib/components-index";
 import Link from "next/link"
+import TopNavSearch from "./top-nav-search";
 
 export function NavBar() {
 
@@ -32,9 +33,15 @@ export function NavBar() {
             <span className="hidden font-bold text-xl md:inline-block">AnimeVault</span>
           </div>
           <div className="hidden md:flex md:flex-1 md:items-center md:justify-between md:gap-10">
-            <nav className="flex items-center space-x-6">
+            <nav className="flex items-center space-x-6 ml-4">
+            <Link
+                href="/dashboard"
+                className="text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400"
+              >
+                Home
+              </Link>
               <Link
-                href="#"
+                href="/dashboard/anime-list"
                 className="text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400"
               >
                 Anime
@@ -46,7 +53,7 @@ export function NavBar() {
                 Manga
               </Link>
               <Link
-                href="#"
+                href="/dashboard/community"
                 className="text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400"
               >
                 Community
@@ -59,14 +66,7 @@ export function NavBar() {
               </Link>
             </nav>
             <div className="flex flex-1 items-center justify-end gap-4">
-              <div className="relative w-full max-w-sm">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search anime, manga, or users..."
-                  className="w-full rounded-full pl-8 pr-4 focus-visible:ring-purple-500"
-                />
-              </div>
+              <TopNavSearch />
               <Button variant="ghost" size="icon" className="relative">
                 <Bell className="h-5 w-5" />
                 <span className="sr-only">Notifications</span>

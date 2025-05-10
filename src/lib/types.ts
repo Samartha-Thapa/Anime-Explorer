@@ -1,18 +1,3 @@
-// export interface Anime {
-//   mal_id: number;
-//   title: string;
-//   images: {
-//     jpg: {
-//       image_url: string;
-//     };
-//   };
-//   score: number | null;
-//   episodes: number | null;
-//   status: string;
-//   genres: { name: string }[];
-//   studios: { name: string }[];
-// }
-
 export type AnimeId = string;
 
 export interface Anime {
@@ -50,7 +35,6 @@ export interface Anime {
   themes?: { name: string }[];
   demographics?: { name: string }[];
 }
-
 
 export interface JikanResponse {
   data: Anime[];

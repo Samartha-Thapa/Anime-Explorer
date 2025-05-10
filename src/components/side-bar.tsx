@@ -17,7 +17,7 @@ export default function SideBar({anime}: SideBarProps){
           <div className="overflow-hidden rounded-lg">
             <Image
               src={anime.images?.jpg?.image_url || "/placeholder.svg?height=400&width=300"}
-              alt={anime.title}
+              alt={anime.title || "anime image"}
               width={260}
               height={300}
               className="w-full object-cover"

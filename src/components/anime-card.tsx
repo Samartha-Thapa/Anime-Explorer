@@ -7,18 +7,20 @@ interface AnimeCardProps {
   title: string
   image: string
   score: number | null
+  animeId: string | number
   episodes: number
   status: string
-}
+} 
 
-export default function AnimeCard({ title, image, score, status }: AnimeCardProps) {
+
+export default function AnimeCard({ title, animeId, image, score, status }: AnimeCardProps) {
   return (
     <div className="group relative overflow-hidden rounded-lg border bg-card shadow-sm transition-all hover:shadow-md">
-      <Link href={`/dashboard/anime/${encodeURIComponent(title.toLowerCase().replace(/\s+/g, "-"))}`} className="block">
+      <Link href={`/dashboard/anime/byId/${animeId}`} className="block">
         <div className="relative aspect-[2/3] overflow-hidden">
           <Image
             src={image || "/placeholder.svg"}
-            alt={title}
+            alt={title || "anime title"}
             fill
             className="object-cover transition-transform group-hover:scale-105"
           />

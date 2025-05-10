@@ -65,6 +65,16 @@ api.interceptors.response.use(
     },
   });
 
+  export const getAnimeList = async (page: number = 1) => {
+  try {
+    const response = await jikanApi.get(`/anime?page=${page}`);
+    return response.data;
+  } catch(error){
+    console.error('Error fetching anime list:', error);
+    throw error;
+  }
+}
+
   // Fetching Anime Data from Jikan API
   export const searchAnime = async (query: string, page: number = 1) => {
     try {
@@ -80,17 +90,7 @@ api.interceptors.response.use(
       throw error;
     }
   };
-
-  export const getAnimeByName = async (animeName: string) => {
-    try {
-      const response = await jikanApi.get(`/anime?q=${animeName}`)
-      return response.data;
-    } catch (error) {
-      console.error(`Error fetching anime by Name:`, error);
-      throw error;
-    }
-  }
-
+  
   export const getAnimeById = async (id: number) => {
     try {
       const response = await jikanApi.get(`/anime/${id}`);

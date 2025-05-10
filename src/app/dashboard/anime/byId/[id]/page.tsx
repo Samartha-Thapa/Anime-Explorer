@@ -14,7 +14,6 @@ export default async function AnimePage({
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Hero Banner */}
         <HeroBanner animeId={numericId} />
-      {id}
       {/* Main Content */}
         <MainContent animeId={numericId} />
     </div>
