@@ -1,0 +1,28 @@
+[33mbcc1aba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/animeExplore-3[m[33m, [m[1;32manimeExplore-3[m[33m)[m HEAD@{0}: reset: moving to animeExplore-3
+[33m00a24f3[m HEAD@{1}: checkout: moving from main to main
+[33m00a24f3[m HEAD@{2}: commit: animExplore-3(II)commit
+[33mbcc1aba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/animeExplore-3[m[33m, [m[1;32manimeExplore-3[m[33m)[m HEAD@{3}: reset: moving to animeExplore-3
+[33mbcc1aba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/animeExplore-3[m[33m, [m[1;32manimeExplore-3[m[33m)[m HEAD@{4}: checkout: moving from animeExplore-3 to main
+[33mbcc1aba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/animeExplore-3[m[33m, [m[1;32manimeExplore-3[m[33m)[m HEAD@{5}: checkout: moving from main to animeExplore-3
+[33mbcc1aba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/animeExplore-3[m[33m, [m[1;32manimeExplore-3[m[33m)[m HEAD@{6}: merge animeExplore-3: Fast-forward
+[33mf451211[m HEAD@{7}: checkout: moving from main to main
+[33mf451211[m HEAD@{8}: checkout: moving from animeExplore-3 to main
+[33mbcc1aba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/animeExplore-3[m[33m, [m[1;32manimeExplore-3[m[33m)[m HEAD@{9}: commit: animeEXplore-3 (I)-commit
+[33mf451211[m HEAD@{10}: checkout: moving from main to animeExplore-3
+[33mf451211[m HEAD@{11}: checkout: moving from animeExplore-2 to main
+[33m994c5bd[m[33m ([m[1;31morigin/animeExplore-2[m[33m, [m[1;32manimeExplore-2[m[33m)[m HEAD@{12}: reset: moving to HEAD
+[33m994c5bd[m[33m ([m[1;31morigin/animeExplore-2[m[33m, [m[1;32manimeExplore-2[m[33m)[m HEAD@{13}: checkout: moving from main to animeExplore-2
+[33mf451211[m HEAD@{14}: commit: Second Commit (III)
+[33m822ef65[m HEAD@{15}: commit: Second Commit (II)
+[33m994c5bd[m[33m ([m[1;31morigin/animeExplore-2[m[33m, [m[1;32manimeExplore-2[m[33m)[m HEAD@{16}: reset: moving to animeExplore-2
+[33m994c5bd[m[33m ([m[1;31morigin/animeExplore-2[m[33m, [m[1;32manimeExplore-2[m[33m)[m HEAD@{17}: checkout: moving from main to main
+[33m994c5bd[m[33m ([m[1;31morigin/animeExplore-2[m[33m, [m[1;32manimeExplore-2[m[33m)[m HEAD@{18}: reset: moving to animeExplore-2
+[33m8179f17[m HEAD@{19}: checkout: moving from main to main
+[33m8179f17[m HEAD@{20}: checkout: moving from animeExplore-2 to main
+[33m994c5bd[m[33m ([m[1;31morigin/animeExplore-2[m[33m, [m[1;32manimeExplore-2[m[33m)[m HEAD@{21}: commit: Second Commit
+[33m8179f17[m HEAD@{22}: checkout: moving from main to animeExplore-2
+[33m8179f17[m HEAD@{23}: commit: first commit
+[33m9fd03e4[m HEAD@{24}: rebase (abort): returning to refs/heads/main
+[33m803b088[m HEAD@{25}: pull origin main --rebase (start): checkout 803b0889f250f812f49959571276889427eef81e
+[33m9fd03e4[m HEAD@{26}: commit: First Commit
+[33mb8acd4b[m HEAD@{27}: commit (initial): Initial commit from Create Next App

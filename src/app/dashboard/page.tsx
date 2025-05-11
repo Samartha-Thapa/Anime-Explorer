@@ -4,8 +4,6 @@ import {
   SeasonalAnime,
   ShowAnime,
   AnimeTabs,
-  Footer,
-  NavBar
 } from "@/lib/components-index";
 import {
   ShowAnimeSkeleton,
@@ -19,9 +17,6 @@ import Link from "next/link"
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* Navigation */}
-      <NavBar />
- 
 
       <main className="container py-6">
         {/* Hero Section */}
@@ -79,8 +74,6 @@ export default function Dashboard() {
         </Suspense>
       </main>
 
-      {/* Footer */}
-     <Footer />
     </div>
   )
 }

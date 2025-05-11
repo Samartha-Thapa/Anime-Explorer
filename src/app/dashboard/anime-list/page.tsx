@@ -1,4 +1,4 @@
-import { AnimeListMainContent, FilterDesktop, FilterMobile, NavBar } from "@/lib/components-index"
+import { AnimeListMainContent, FilterDesktop, FilterMobile } from "@/lib/components-index"
 
 export default function AllAnimeList() {
 
@@ -18,7 +18,6 @@ export default function AllAnimeList() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <NavBar />
 
       <main className="container py-6">
         <div className="mb-6">

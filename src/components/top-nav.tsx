@@ -59,7 +59,7 @@ export function NavBar() {
                 Community
               </Link>
               <Link
-                href="#"
+                href="/dashboard/seasonal-animes"
                 className="text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400"
               >
                 Seasonal

@@ -1,6 +1,5 @@
 import Image from "next/image"
 import Link from "next/link"
-import { NavBar } from "@/components/top-nav"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -116,7 +115,6 @@ export default function CommunityPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <NavBar />
 
       <main className="container py-6">
         <div className="mb-6">

@@ -20,7 +20,7 @@ export {
 export { Separator } from "@/components/ui/separator";
 export { Progress } from "@/components/ui/progress";
 export { Badge } from '../components/ui/badge';
-export { default as SeasonalAnime } from "../components/seasonal-anime";
+export { default as SeasonalAnime} from '../components/seasonal-anime';
 export { default as ShowAnime } from "../components/anime-show";
 export { default as AnimeTabs } from "../components/anime-tabs";
 export { Footer } from "../components/footer";
