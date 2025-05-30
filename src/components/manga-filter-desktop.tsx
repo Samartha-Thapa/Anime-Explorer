@@ -13,7 +13,19 @@ import {
 } from "@/lib/components-index";
 import { FilterDesktopProps, Filters } from "@/lib/types";
 
-export default function FilterDesktop({ filters, setFilters }: FilterDesktopProps) {
+const genreMap: Record<string, number> = {
+  Action: 1,
+  Adventure: 2,
+  Comedy: 4,
+  Drama: 8,
+  Fantasy: 10,
+  Horror: 14,
+  Mystery: 7,
+  Romance: 22,
+  "Sci-Fi": 24,
+};
+
+export default function MangaFilterDesktop({ filters, setFilters }: FilterDesktopProps) {
   const [tempFilters, setTempFilters] = useState<Filters>(filters);
 
   const handleStatusChange = (status: string) => {
@@ -46,13 +58,23 @@ export default function FilterDesktop({ filters, setFilters }: FilterDesktopProp
     setFilters(tempFilters);
   };
 
+  const resetFilters = () => {
+    const initialFilters: Filters = {
+      status: [],
+      genres: [],
+      year: "any",
+      rating: "any",
+    };
+    setTempFilters(initialFilters);
+    setFilters(initialFilters);
+  };
+
   return (
     <div className="hidden md:block w-64 space-y-6">
       <div className="rounded-lg border bg-card p-4">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
           <Filter className="h-4 w-4" /> Filters
         </h2>
-
         <div className="space-y-4">
           <div>
             <h3 className="text-sm font-medium mb-2">Status</h3>
@@ -74,21 +96,10 @@ export default function FilterDesktop({ filters, setFilters }: FilterDesktopProp
               ))}
             </div>
           </div>
-
           <div>
             <h3 className="text-sm font-medium mb-2">Genres</h3>
             <div className="space-y-2">
-              {[
-                "Action",
-                "Adventure",
-                "Comedy",
-                "Drama",
-                "Fantasy",
-                "Horror",
-                "Mystery",
-                "Romance",
-                "Sci-Fi",
-              ].map((genre) => (
+              {Object.keys(genreMap).map((genre) => (
                 <div key={genre} className="flex items-center space-x-2">
                   <Checkbox
                     id={`genre-${genre}`}
@@ -105,7 +116,6 @@ export default function FilterDesktop({ filters, setFilters }: FilterDesktopProp
               ))}
             </div>
           </div>
-
           <div>
             <h3 className="text-sm font-medium mb-2">Year</h3>
             <Select onValueChange={handleYearChange} value={tempFilters.year}>
@@ -123,7 +133,6 @@ export default function FilterDesktop({ filters, setFilters }: FilterDesktopProp
               </SelectContent>
             </Select>
           </div>
-
           <div>
             <h3 className="text-sm font-medium mb-2">Rating</h3>
             <Select onValueChange={handleRatingChange} value={tempFilters.rating}>
@@ -140,10 +149,14 @@ export default function FilterDesktop({ filters, setFilters }: FilterDesktopProp
               </SelectContent>
             </Select>
           </div>
-
-          <Button className="w-full" onClick={applyFilters}>
-            Apply Filters
-          </Button>
+          <div className="flex gap-2">
+            <Button className="w-full" onClick={applyFilters}>
+              Apply Filters
+            </Button>
+            <Button variant="outline" className="w-full" onClick={resetFilters}>
+              Reset
+            </Button>
+          </div>
         </div>
       </div>
     </div>

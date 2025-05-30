@@ -1,20 +1,16 @@
+"use client";
+
+import { useState } from "react";
 import { AnimeListMainContent, FilterDesktop, FilterMobile } from "@/lib/components-index"
+import { Filters } from "@/lib/types";
 
 export default function AllAnimeList() {
-
-  // Mock data for anime list
-  // const animeList = [
-  //   {
-  //     id: 1,
-  //     title: "Demon Slayer: Hashira Training Arc",
-  //     image: "/placeholder.svg?height=300&width=200&text=DemonSlayer",
-  //     score: 9.1,
-  //     episodes: 12,
-  //     status: "Airing",
-  //     genres: ["Action", "Fantasy"],
-  //     studio: "ufotable",
-  //   },
-  // ]
+const [filters, setFilters] = useState<Filters>({
+    status: [],
+    genres: [],
+    year: "",
+    rating: "",
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
@@ -27,15 +23,15 @@ export default function AllAnimeList() {
 
         <div className="flex flex-col md:flex-row gap-6">
           {/* Filters - Desktop */}
-          <FilterDesktop />
+          <FilterDesktop filters={filters} setFilters={setFilters}/>
           
 
           {/* Filters - Mobile */}
-          <FilterMobile />
+          <FilterMobile filters={filters} setFilters={setFilters}/>
           
 
           {/* Main Content */}
-          <AnimeListMainContent />
+          <AnimeListMainContent filters={filters}/>
         </div>
       </main>
     </div>

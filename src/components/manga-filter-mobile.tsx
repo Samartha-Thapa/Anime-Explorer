@@ -25,7 +25,19 @@ import {
 } from "@/lib/components-index";
 import { FilterMobileProps, Filters } from "@/lib/types";
 
-export default function FilterMobile({ filters, setFilters }: FilterMobileProps) {
+const genreMap: Record<string, number> = {
+  Action: 1,
+  Adventure: 2,
+  Comedy: 4,
+  Drama: 8,
+  Fantasy: 10,
+  Horror: 14,
+  Mystery: 7,
+  Romance: 22,
+  "Sci-Fi": 24,
+};
+
+export default function MangaFilterMobile({ filters, setFilters }: FilterMobileProps) {
   const [tempFilters, setTempFilters] = useState<Filters>(filters);
 
   const handleStatusChange = (status: string) => {
@@ -100,17 +112,8 @@ export default function FilterMobile({ filters, setFilters }: FilterMobileProps)
                   <AccordionTrigger>Genres</AccordionTrigger>
                   <AccordionContent>
                     <div className="space-y-2">
-                      {[
-                        "Action",
-                        "Adventure",
-                        "Comedy",
-                        "Drama",
-                        "Fantasy",
-                        "Horror",
-                        "Mystery",
-                        "Romance",
-                        "Sci-Fi",
-                      ].map((genre) => (
+                      
+              {Object.keys(genreMap).map((genre) => (
                         <div key={genre} className="flex items-center space-x-2">
                           <Checkbox
                             id={`mobile-genre-${genre}`}

@@ -1,39 +1,12 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Button, Tabs, TabsContent, TabsList, TabsTrigger, Badge, Card, CardContent, } from "@/lib/components-index"
 import Image from "next/image"
 import { Star, Play } from "lucide-react"
-import { Anime } from "@/lib/types"
+import { SideBarProps } from "@/lib/types"
 import StaffAnime from "./anime-staff"
 import AnimeCharacter from "./anime-characters"
 import ChildRecommendedAnime from "./child-recommended-anime"
 
-export interface Staff {
-  person: {
-    mal_id: number;
-    url: string;
-    images: {
-      jpg: {
-        image_url: string;
-      };
-    };
-    name: string;
-  };
-  positions: string[];
-}
-
-
-export interface AnimeStaffResponse {
-  data: Staff[];
-}
-
-interface SideBarProps {
-    anime: Anime;
-  }
-
 export default function MainChildContent({anime}: SideBarProps){
-  // console.log(anime.mal_id)
   if (!anime) {
     return <div>Loading anime data...</div>;
   }

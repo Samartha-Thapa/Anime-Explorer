@@ -41,9 +41,11 @@ export default function Dashboard() {
                 </div>
               </div>
               {/* // Here top show */}
-              <Suspense fallback={<ShowAnimeSkeleton />}>
-                <ShowAnime />
-              </Suspense>
+              <div className="md:block hidden">
+                <Suspense fallback={<ShowAnimeSkeleton />}>
+                  <ShowAnime />
+                </Suspense>
+              </div>
 
             </div>
           </div>

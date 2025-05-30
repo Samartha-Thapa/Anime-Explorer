@@ -3,24 +3,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "./ui/card";
 import { useEffect, useState } from "react";
-
-interface StaffData {
-    person: {
-      mal_id: number;
-      name: string;
-      images: {
-        jpg: {
-          image_url: string;
-        };
-      };
-    };
-    positions: string[];
-  }
-
-interface StaffAnimeProps {
-    animeId: number;  // Changed to number and proper case
-  }
-  
+import { StaffAnimeProps, StaffData } from "@/lib/types";
 
 export default function StaffAnime({animeId}: StaffAnimeProps){
 

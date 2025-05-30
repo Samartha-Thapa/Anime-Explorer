@@ -30,10 +30,10 @@ export function Footer() {
             {
               title: "Browse",
               links: [
-                { href: "#", label: "Anime" },
-                { href: "#", label: "Manga" },
-                { href: "#", label: "Seasons" },
-                { href: "#", label: "Genres" },
+                { href: "/dashboard/anime-list", label: "Anime" },
+                { href: "/dashboard/manga", label: "Manga" },
+                { href: "/dashboard/seasonal-animes", label: "Seasons" },
+                { href: "/dashboard/", label: "Genres" },
               ],
               icon: <Star className="h-4 w-4" />,
             },

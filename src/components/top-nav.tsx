@@ -47,7 +47,7 @@ export function NavBar() {
                 Anime
               </Link>
               <Link
-                href="#"
+                href="/dashboard/manga"
                 className="text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400"
               >
                 Manga
