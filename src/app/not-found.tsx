@@ -13,7 +13,7 @@ export default function NotFound() {
             404
           </h1>
           <h2 className="text-2xl md:text-3xl font-bold text-purple-800 mb-4">Oops! Page Not Found</h2>
-          <p className="text-purple-700 mb-6">The page you're looking for has disappeared into another dimension!</p>
+          <p className="text-purple-700 mb-6">The page you&apos;re looking for has disappeared into another dimension!</p>
           <Button
             asChild
             className="bg-gradient-to-r from-pink-500 to-violet-500 hover:from-pink-600 hover:to-violet-600"
@@ -77,7 +77,7 @@ export default function NotFound() {
         </div>
       </div>
       <p className="mt-8 text-white/80 text-sm">
-        Lost in the anime multiverse? Don't worry, we'll help you find your way back!
+        Lost in the anime multiverse? Don&apos;t worry, we&apos;ll help you find your way back!
       </p>
     </div>
   )
