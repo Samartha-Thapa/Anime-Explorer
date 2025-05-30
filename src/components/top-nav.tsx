@@ -74,7 +74,7 @@ export function NavBar() {
             {["Home", "Anime", "Manga", "Community", "Seasonal"].map((item) => (
               <Link
                 key={item}
-                href={`/dashboard${item === "Home" ? "" : item === "Anime" ? "/anime-list" : `/${item.toLowerCase()}`}`}
+                href={`/dashboard${item === "Home" ? "" : item === "Anime" ? "/anime-list" :  item === "Seasonal" ? "/seasonal-animes" :`/${item.toLowerCase()}`}`}
                 className="relative text-sm font-medium text-gray-700 dark:text-gray-200 transition-all duration-200 hover:text-purple-600 dark:hover:text-purple-400 group"
               >
                 {item}
@@ -121,7 +121,7 @@ export function NavBar() {
               {["Home", "Anime", "Manga", "Community", "Seasonal"].map((item) => (
                 <Link
                   key={item}
-                  href={`/dashboard${item === "Home" ? "" : item === "Anime" ? "/anime-list" : `/${item.toLowerCase()}`}`}
+                  href={`/dashboard${item === "Home" ? "" : item === "Anime" ? "/anime-list" : item === "Seasonal" ? "/seasonal-animes" : `/${item.toLowerCase()}`}`}
                   className="block px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gradient-to-r hover:from-purple-100/50 hover:to-pink-100/50 dark:hover:from-purple-900/50 dark:hover:to-pink-900/50 transition-all duration-200"
                   onClick={toggleMobileMenu}
                 >
