@@ -11,7 +11,6 @@ export default function MainChildContent({anime}: SideBarProps){
     return <div>Loading anime data...</div>;
   }
     return(
-
         <div className="md:col-span-3 space-y-8">
         <div>
           <div className="mb-2 flex flex-wrap items-center gap-2">

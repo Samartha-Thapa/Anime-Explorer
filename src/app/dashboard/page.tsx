@@ -1,23 +1,14 @@
-import { ChevronRight } from "lucide-react"
-import {
-  Button,
-  SeasonalAnime,
-  ShowAnime,
-  AnimeTabs,
-} from "@/lib/components-index";
-import {
-  ShowAnimeSkeleton,
-  AnimeTabsSkeleton,
-  SeasonalAnimeSkeleton,
-} from "@/lib/skeleton-index";
-import { Suspense } from "react"
-import { UserStats } from "@/components/user-stats"
-import Link from "next/link"
+// app/dashboard/page.tsx
+import { ChevronRight } from "lucide-react";
+import { Button, SeasonalAnime, ShowAnime, AnimeTabs } from "@/lib/components-index";
+import { ShowAnimeSkeleton, AnimeTabsSkeleton, SeasonalAnimeSkeleton } from "@/lib/skeleton-index";
+import { Suspense } from "react";
+import { UserStats } from "@/components/user-stats";
+import Link from "next/link";
 
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-
       <main className="container py-6">
         {/* Hero Section */}
         <section className="mb-10">
@@ -30,32 +21,30 @@ export default function Dashboard() {
                     Track Your Anime Journey
                   </h1>
                   <p className="text-muted-100 max-w-[600px] text-white/80 md:text-xl">
-                     Keep track of your anime and manga, share with friends, and discover new series.
+                    Keep track of your anime and manga, share with friends, and discover new series.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button className="bg-white text-purple-600 hover:bg-white/90">Get Started</Button>
-                  <Button variant="outline" className="border-white text  -white hover:bg-white/10">
+                  <Button variant="outline" className="border-white text-white hover:bg-white/10">
                     Learn More
                   </Button>
                 </div>
               </div>
-              {/* // Here top show */}
-              <div className="md:block hidden">
+              {/* Suspense for ShowAnime */}
+              <div className="hidden md:block">
                 <Suspense fallback={<ShowAnimeSkeleton />}>
                   <ShowAnime />
                 </Suspense>
               </div>
-
             </div>
           </div>
         </section>
 
         {/* User Stats Section */}
         <UserStats />
-      
 
-        {/* Seasonal Anime */}
+        {/* Seasonal Anime Section */}
         <section className="mb-10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-2xl font-bold">Spring 2025 Anime</h2>
@@ -70,12 +59,11 @@ export default function Dashboard() {
           </Suspense>
         </section>
 
-        {/* Tabs Section */}
+        {/* Tabs Section (Client Component) */}
         <Suspense fallback={<AnimeTabsSkeleton />}>
           <AnimeTabs />
         </Suspense>
       </main>
-
     </div>
-  )
+  );
 }
