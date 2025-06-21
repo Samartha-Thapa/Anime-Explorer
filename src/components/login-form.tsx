@@ -46,7 +46,14 @@ export function LoginForm() {
     setIsLoading(true)
 
     try {
-      const response = await api.post("/login", data);
+      const response = await api.post("/sanctum/token",  {
+        email: data.email,
+        password: data.password,
+        device_name: "anime-explorer",
+      });
+
+      localStorage.setItem("token", response.data.token);
+      
       setSuccess(`Welcome, ${response.data.user.name}! Log In Successful.`);
       toast({
         title: "Success",

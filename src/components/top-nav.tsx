@@ -1,10 +1,19 @@
 "use client"
+
 import { Bell, Menu, X } from "lucide-react"
 import { Button, Avatar, AvatarFallback, AvatarImage } from "@/lib/components-index";
 import Link from "next/link"
 import TopNavSearch from "./top-nav-search";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -89,20 +98,62 @@ export function NavBar() {
               <span className="sr-only">Notifications</span>
               <span className="absolute right-1 top-1 flex h-2 w-2 rounded-full bg-purple-600 animate-pulse" />
             </Button>
-            <Avatar className="h-8 w-8 ring-2 ring-purple-200 dark:ring-purple-700/50">
-              <AvatarImage src="/placeholder.svg?height=32&width=32" alt="@username" />
-              <AvatarFallback className="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400">
-                UN
-              </AvatarFallback>
-            </Avatar>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="h-8 w-8 cursor-pointer ring-2 ring-purple-200 dark:ring-purple-700/50">
+                  <AvatarImage src="/placeholder.svg?height=32&width=32" alt="@username" />
+                  <AvatarFallback className="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400">
+                    UN
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer" asChild>
+                  <Link href='/dashboard/profile'>Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 dark:text-red-400 dark:focus:text-red-400">
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-8 ml-8 md:hidden">
           <Button variant="ghost" size="icon" className="relative hover:bg-purple-100/50 dark:hover:bg-purple-900/50">
             <Bell className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             <span className="sr-only">Notifications</span>
             <span className="absolute right-1 top-1 flex h-2 w-2 rounded-full bg-purple-600 animate-pulse" />
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar className="h-8 w-8 cursor-pointer ring-2 ring-purple-200 dark:ring-purple-700/50">
+                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="@username" />
+                <AvatarFallback className="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400">
+                  UN
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href='/dashboard/profile'>Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 dark:text-red-400 dark:focus:text-red-400">
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       <AnimatePresence>

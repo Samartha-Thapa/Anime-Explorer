@@ -1,125 +1,200 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { MessageCircle, Heart, Share2, Bookmark, TrendingUp, Users, Calendar, Star, Search } from "lucide-react"
+"use client";
+
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import api from "@/lib/api";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "@/components/ui/use-toast";
+import { MessageCircle, Heart, Share2, Bookmark, Users, Star, Search } from "lucide-react";
+
+type User = { id: string; name: string };
+type Post = { id: string; content: string; created_at: string; user: { name: string } };
+type Artwork = { id: string; title: string; image_url: string; description: string; user: { name: string }; created_at: string };
+type Review = { id: string; anime_title: string; rating: number; content: string; image_url: string; user: { name: string }; created_at: string };
 
 export default function CommunityPage() {
-  // Mock data for community posts
-  const trendingTopics = [
-    {
-      id: 1,
-      title: "Demon Slayer Season 4 Discussion",
-      posts: 342,
-      lastActive: "2 hours ago",
-    },
-    {
-      id: 2,
-      title: "Jujutsu Kaisen Manga Chapter 256 Spoilers",
-      posts: 289,
-      lastActive: "5 hours ago",
-    },
-    {
-      id: 3,
-      title: "One Piece Chapter 1115 Theories",
-      posts: 421,
-      lastActive: "1 hour ago",
-    },
-    {
-      id: 4,
-      title: "Chainsaw Man Part 2 Analysis",
-      posts: 187,
-      lastActive: "12 hours ago",
-    },
-    {
-      id: 5,
-      title: "Attack on Titan Ending - 2 Years Later",
-      posts: 256,
-      lastActive: "3 hours ago",
-    },
-  ]
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [artworks, setArtworks] = useState<Artwork[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [postContent, setPostContent] = useState("");
+  const [artworkTitle, setArtworkTitle] = useState("");
+  const [artworkDescription, setArtworkDescription] = useState("");
+  const [artworkImage, setArtworkImage] = useState<File | null>(null);
+  const [reviewAnimeTitle, setReviewAnimeTitle] = useState("");
+  const [reviewRating, setReviewRating] = useState(1);
+  const [reviewContent, setReviewContent] = useState("");
+  const [reviewImage, setReviewImage] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const recentPosts = [
-    {
-      id: 1,
-      user: {
-        name: "AnimeExplorer42",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-      title: "My thoughts on the latest episode of Demon Slayer",
-      content:
-        "The animation quality in the latest episode was absolutely stunning! The fight scenes were fluid and the emotional moments hit hard. What did you all think?",
-      likes: 128,
-      comments: 47,
-      time: "2 hours ago",
-      tags: ["Demon Slayer", "Episode Discussion"],
-    },
-    {
-      id: 2,
-      user: {
-        name: "MangaReader99",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-      title: "Unpopular Opinion: Jujutsu Kaisen is overrated",
-      content:
-        "I know I'll get a lot of hate for this, but I think Jujutsu Kaisen is a bit overrated. The animation is great, but the story feels derivative at times. Anyone else feel the same?",
-      likes: 56,
-      comments: 89,
-      time: "5 hours ago",
-      tags: ["Jujutsu Kaisen", "Hot Take"],
-    },
-    {
-      id: 3,
-      user: {
-        name: "OnePieceFan1997",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-      title: "One Piece Theory: The true nature of the One Piece treasure",
-      content:
-        "After the recent chapters, I think I've figured out what the One Piece actually is! It's not gold or jewels, but something much more meaningful to the world...",
-      likes: 215,
-      comments: 73,
-      time: "1 day ago",
-      tags: ["One Piece", "Theory"],
-    },
-  ]
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await api.get("/user");
+        setUser(response.data);
+        await Promise.all([fetchPosts(), fetchArtworks(), fetchReviews()]);
+      } catch (error) {
+        console.log(error)
+        toast({
+          title: "Error",
+          description: "Please sign in to access the community.",
+          variant: "destructive",
+        });
+        router.push("/login");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUser();
+  }, [router]);
 
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: "AnimeVault Virtual Watch Party: Demon Slayer",
-      date: "May 15, 2025",
-      time: "8:00 PM EST",
-      participants: 156,
-    },
-    {
-      id: 2,
-      title: "Manga Club: Monthly Discussion",
-      date: "May 20, 2025",
-      time: "7:00 PM EST",
-      participants: 89,
-    },
-    {
-      id: 3,
-      title: "Anime Quiz Night",
-      date: "May 25, 2025",
-      time: "9:00 PM EST",
-      participants: 124,
-    },
-  ]
+  const fetchPosts = async () => {
+    try {
+      const response = await api.get("/posts");
+      setPosts(response.data);
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "Error",
+        description: "Failed to fetch posts.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const fetchArtworks = async () => {
+    try {
+      const response = await api.get("/artworks");
+      setArtworks(response.data);
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "Error",
+        description: "Failed to fetch artworks.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const response = await api.get("/reviews");
+      setReviews(response.data);
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "Error",
+        description: "Failed to fetch reviews.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handlePostSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await api.post("/posts", { content: postContent });
+      setPostContent("");
+      fetchPosts();
+      toast({
+        title: "Success",
+        description: "Post created successfully!",
+      });
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "Error",
+        description: "Failed to create post.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleArtworkSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("title", artworkTitle);
+    formData.append("description", artworkDescription);
+    if (artworkImage) formData.append("image", artworkImage);
+
+    try {
+      await api.post("/artworks", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setArtworkTitle("");
+      setArtworkDescription("");
+      setArtworkImage(null);
+      fetchArtworks();
+      toast({
+        title: "Success",
+        description: "Artwork uploaded successfully!",
+      });
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "Error",
+        description: "Failed to upload artwork.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleReviewSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("anime_title", reviewAnimeTitle);
+    formData.append("rating", reviewRating.toString());
+    formData.append("content", reviewContent);
+    if (reviewImage) formData.append("image", reviewImage);
+
+    try {
+      await api.post("/reviews", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setReviewAnimeTitle("");
+      setReviewRating(1);
+      setReviewContent("");
+      setReviewImage(null);
+      fetchReviews();
+      toast({
+        title: "Success",
+        description: "Review submitted successfully!",
+      });
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "Error",
+        description: "Failed to submit review.",
+        variant: "destructive",
+      });
+    }
+  };
+
+
+  if (isLoading) {
+    return <div className="min-h-screen bg-gray-50 dark:bg-gray-950">Loading...</div>;
+  }
+
+  if (!user) {
+    return null; // Redirect handled in useEffect
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-
       <main className="container py-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">Community</h1>
-          <p className="text-muted-foreground">Connect with fellow anime fans and join the conversation</p>
+        <div className="mb-6 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Community</h1>
+            <p className="text-muted-foreground">Connect with fellow anime fans and share your passion</p>
+          </div>
         </div>
 
         {/* Hero Section */}
@@ -136,13 +211,12 @@ export default function CommunityPage() {
           <div className="relative z-10 p-8 md:p-12 text-white">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Join Our Anime Community</h2>
             <p className="text-lg mb-6 max-w-2xl">
-              Share your thoughts, theories, and passion for anime with thousands of fans. Participate in discussions,
-              events, and make new friends!
+              Share your thoughts, artwork, and reviews with thousands of anime fans!
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button className="bg-white text-purple-900 hover:bg-white/90">Create Post</Button>
+              <Button className="bg-white text-purple-900 hover:bg-white/90">Create Content</Button>
               <Button variant="outline" className="border-white text-white hover:bg-white/10">
-                Browse Forums
+                Browse Community
               </Button>
             </div>
           </div>
@@ -161,25 +235,44 @@ export default function CommunityPage() {
               <TabsContent value="discussions" className="space-y-4">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl font-bold">Recent Discussions</h2>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={() => document.getElementById("post-form")?.scrollIntoView()}>
                     New Post
                   </Button>
                 </div>
 
+                {/* Post Creation Form */}
+                <Card id="post-form">
+                  <CardContent className="p-4">
+                    <form onSubmit={handlePostSubmit}>
+                      <Textarea
+                        value={postContent}
+                        onChange={(e) => setPostContent(e.target.value)}
+                        placeholder="Share your anime thoughts..."
+                        className="mb-2"
+                        required
+                      />
+                      <Button type="submit" className="bg-blue-500 text-white">
+                        Post
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                {/* Dynamic Posts */}
                 <div className="space-y-4">
-                  {recentPosts.map((post) => (
+                  {posts.map((post) => (
                     <Card key={post.id}>
                       <CardHeader>
                         <div className="flex items-start justify-between">
                           <div className="flex items-center gap-3">
                             <Avatar>
-                              <AvatarImage src={post.user.avatar || "/placeholder.svg"} alt={post.user.name} />
+                              <AvatarImage src="/placeholder.svg" alt={post.user.name} />
                               <AvatarFallback>{post.user.name.substring(0, 2)}</AvatarFallback>
                             </Avatar>
                             <div>
-                              <CardTitle className="text-lg">{post.title}</CardTitle>
+                              <CardTitle className="text-lg">{post.user.name}&aposs Post</CardTitle>
                               <CardDescription>
-                                Posted by {post.user.name} • {post.time}
+                                Posted by {post.user.name} • {new Date(post.created_at).toLocaleString()}
                               </CardDescription>
                             </div>
                           </div>
@@ -191,20 +284,18 @@ export default function CommunityPage() {
                       <CardContent>
                         <p className="text-sm text-muted-foreground mb-3">{post.content}</p>
                         <div className="flex flex-wrap gap-2">
-                          {post.tags.map((tag, i) => (
-                            <Badge key={i} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
+                          <Badge variant="secondary" className="text-xs">
+                            Anime
+                          </Badge>
                         </div>
                       </CardContent>
                       <CardFooter className="border-t pt-4">
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
                           <button className="flex items-center gap-1 hover:text-foreground transition-colors">
-                            <Heart className="h-4 w-4" /> {post.likes}
+                            <Heart className="h-4 w-4" /> 0
                           </button>
                           <button className="flex items-center gap-1 hover:text-foreground transition-colors">
-                            <MessageCircle className="h-4 w-4" /> {post.comments}
+                            <MessageCircle className="h-4 w-4" /> 0
                           </button>
                           <button className="flex items-center gap-1 hover:text-foreground transition-colors">
                             <Share2 className="h-4 w-4" /> Share
@@ -223,25 +314,64 @@ export default function CommunityPage() {
               <TabsContent value="artwork" className="space-y-4">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl font-bold">Fan Artwork</h2>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={() => document.getElementById("artwork-form")?.scrollIntoView()}>
                     Upload Artwork
                   </Button>
                 </div>
 
+                {/* Artwork Upload Form */}
+                <Card id="artwork-form">
+                  <CardContent className="p-4">
+                    <form onSubmit={handleArtworkSubmit}>
+                      <Input
+                        value={artworkTitle}
+                        onChange={(e) => setArtworkTitle(e.target.value)}
+                        placeholder="Artwork Title"
+                        className="mb-2"
+                        required
+                      />
+                      <Textarea
+                        value={artworkDescription}
+                        onChange={(e) => setArtworkDescription(e.target.value)}
+                        placeholder="Artwork Description"
+                        className="mb-2"
+                      />
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setArtworkImage(e.target.files ? e.target.files[0] : null)}
+                        className="mb-2"
+                        required
+                      />
+                      <Button type="submit" className="bg-blue-500 text-white">
+                        Upload
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                {/* Dynamic Artworks */}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <div key={i} className="group relative overflow-hidden rounded-lg">
+                  {artworks.map((artwork) => (
+                    <div key={artwork.id} className="group relative overflow-hidden rounded-lg">
                       <Image
-                        src={`/placeholder.svg?height=300&width=300&text=Artwork${i}`}
-                        alt={`Artwork ${i}`}
+                        src={
+                          artwork.image_url
+                            ? `http://localhost:8000${artwork.image_url}`
+                            : "/placeholder.png"
+                        }
+                        alt={artwork.title}
                         width={300}
                         height={300}
+                        onError={(e) => {
+                          e.currentTarget.src = "/placeholder.png";
+                        }}
                         className="object-cover aspect-square transition-transform group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="absolute bottom-0 left-0 right-0 p-3">
-                          <h3 className="text-sm font-medium text-white">Artwork Title {i}</h3>
-                          <p className="text-xs text-white/80">by ArtistName{i}</p>
+                          <h3 className="text-sm font-medium text-white">{artwork.title}</h3>
+                          <p className="text-xs text-white/80">by {artwork.user.name}</p>
                         </div>
                       </div>
                     </div>
@@ -256,53 +386,95 @@ export default function CommunityPage() {
               <TabsContent value="reviews" className="space-y-4">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl font-bold">Latest Reviews</h2>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={() => document.getElementById("review-form")?.scrollIntoView()}>
                     Write Review
                   </Button>
                 </div>
 
+                {/* Review Creation Form */}
+                <Card id="review-form">
+                  <CardContent className="p-4">
+                    <form onSubmit={handleReviewSubmit}>
+                      <Input
+                        value={reviewAnimeTitle}
+                        onChange={(e) => setReviewAnimeTitle(e.target.value)}
+                        placeholder="Anime Title"
+                        className="mb-2"
+                        required
+                      />
+                      <div className="flex items-center gap-2 mb-2">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`h-6 w-6 cursor-pointer ${
+                              i < reviewRating ? "text-yellow-500 fill-yellow-500" : "text-gray-300 dark:text-gray-600"
+                            }`}
+                            onClick={() => setReviewRating(i + 1)}
+                          />
+                        ))}
+                      </div>
+                      <Textarea
+                        value={reviewContent}
+                        onChange={(e) => setReviewContent(e.target.value)}
+                        placeholder="Write your review..."
+                        className="mb-2"
+                        required
+                      />
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setReviewImage(e.target.files ? e.target.files[0] : null)}
+                        className="mb-2"
+                      />
+                      <Button type="submit" className="bg-blue-500 text-white">
+                        Submit
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                {/* Dynamic Reviews */}
                 <div className="space-y-4">
-                  {[1, 2, 3].map((i) => (
-                    <Card key={i}>
+                  {reviews.map((review) => (
+                    <Card key={review.id}>
                       <CardHeader>
                         <div className="flex items-start gap-4">
                           <Image
-                            src={`/placeholder.svg?height=120&width=80&text=Anime${i}`}
-                            alt={`Anime ${i}`}
+                            src={`http://localhost:8000${review.image_url || "/placeholder.svg?height=120&width=80"}`}
+                            alt={review.anime_title}
                             width={80}
                             height={120}
                             className="rounded-md object-cover"
                           />
                           <div>
-                            <CardTitle className="text-lg">Anime Title {i}</CardTitle>
+                            <CardTitle className="text-lg">{review.anime_title}</CardTitle>
                             <div className="flex items-center gap-1 mt-1">
                               {Array.from({ length: 5 }).map((_, j) => (
                                 <Star
                                   key={j}
                                   className={`h-4 w-4 ${
-                                    j < 4 ? "text-yellow-500 fill-yellow-500" : "text-gray-300 dark:text-gray-600"
+                                    j < review.rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300 dark:text-gray-600"
                                   }`}
                                 />
                               ))}
-                              <span className="text-sm ml-1">4.0</span>
+                              <span className="text-sm ml-1">{review.rating}.0</span>
                             </div>
-                            <CardDescription className="mt-1">Reviewed by ReviewerName{i} • 2 days ago</CardDescription>
+                            <CardDescription className="mt-1">
+                              Reviewed by {review.user.name} • {new Date(review.created_at).toLocaleString()}
+                            </CardDescription>
                           </div>
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-sm text-muted-foreground">
-                          This anime was amazing! The character development was top-notch and the animation quality was
-                          consistently excellent. The story had me hooked from the first episode...
-                        </p>
+                        <p className="text-sm text-muted-foreground">{review.content}</p>
                       </CardContent>
                       <CardFooter className="border-t pt-4">
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
                           <button className="flex items-center gap-1 hover:text-foreground transition-colors">
-                            <Heart className="h-4 w-4" /> 42
+                            <Heart className="h-4 w-4" /> 0
                           </button>
                           <button className="flex items-center gap-1 hover:text-foreground transition-colors">
-                            <MessageCircle className="h-4 w-4" /> 12
+                            <MessageCircle className="h-4 w-4" /> 0
                           </button>
                           <button className="flex items-center gap-1 hover:text-foreground transition-colors">
                             <Share2 className="h-4 w-4" /> Share
@@ -338,78 +510,6 @@ export default function CommunityPage() {
               </CardContent>
             </Card>
 
-            {/* Trending Topics */}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-red-500" /> Trending Topics
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-3">
-                  {trendingTopics.map((topic) => (
-                    <div key={topic.id} className="flex items-center justify-between">
-                      <Link
-                        href={`/community/topic/${topic.id}`}
-                        className="text-sm hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                      >
-                        {topic.title}
-                      </Link>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <span>{topic.posts} posts</span>
-                        <span>•</span>
-                        <span>{topic.lastActive}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className="pt-0">
-                <Button variant="ghost" className="w-full text-sm">
-                  View All Topics
-                </Button>
-              </CardFooter>
-            </Card>
-
-            {/* Upcoming Events */}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-blue-500" /> Upcoming Events
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-4">
-                  {upcomingEvents.map((event) => (
-                    <div key={event.id} className="space-y-2">
-                      <h3 className="font-medium text-sm">{event.title}</h3>
-                      <div className="flex items-center justify-between text-xs">
-                        <div className="flex items-center gap-1 text-muted-foreground">
-                          <Calendar className="h-3 w-3" />
-                          <span>
-                            {event.date} • {event.time}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1 text-muted-foreground">
-                          <Users className="h-3 w-3" />
-                          <span>{event.participants}</span>
-                        </div>
-                      </div>
-                      <Button variant="outline" size="sm" className="w-full text-xs">
-                        Join Event
-                      </Button>
-                      {event.id !== upcomingEvents.length && <Separator className="mt-3" />}
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className="pt-0">
-                <Button variant="ghost" className="w-full text-sm">
-                  View All Events
-                </Button>
-              </CardFooter>
-            </Card>
-
             {/* Community Stats */}
             <Card>
               <CardHeader className="pb-2">
@@ -442,5 +542,5 @@ export default function CommunityPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
